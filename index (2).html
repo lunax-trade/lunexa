@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lunexa - Invest Beyond Limits</title>
+  <link rel="icon" href="https://lunexa.io/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+  <header class="text-center p-6 bg-gray-800 shadow">
+    <h1 class="text-5xl font-bold tracking-wide text-blue-400">Lunexa</h1>
+    <p class="text-base mt-2 text-gray-300 italic">Invest Beyond Limits</p>
+  </header>
+
+  <main class="p-6 text-center max-w-2xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4">Your Gateway to Smarter Crypto Investing</h2>
+    <p class="text-gray-400 mb-6">
+      Lunexa helps you invest in the future with automated crypto strategies, secure portfolio tracking, and a clear path to growth.
+    </p>
+
+    <ul class="text-left space-y-2 mb-8">
+      <li>✅ AI-powered crypto insights</li>
+      <li>✅ Non-custodial wallet safety</li>
+      <li>✅ 24/7 monitoring and analytics</li>
+    </ul>
+
+    <section class="bg-gray-800 p-6 rounded-lg shadow-md">
+      <h3 class="text-xl font-semibold mb-4">Join the Early Access Waitlist</h3>
+      <form action="https://formspree.io/f/yourformid" method="POST" class="space-y-4 max-w-md mx-auto">
+        <input type="email" name="email" placeholder="Enter your email" required class="w-full p-3 rounded text-black" />
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+          Join Now
+        </button>
+      </form>
+    </section>
+
+    <section class="text-center mt-10">
+      <h3 class="text-xl font-semibold mb-2">Live Prices</h3>
+      <p id="btc-price" class="text-green-400 font-mono text-lg"></p>
+    </section>
+
+    <section class="text-center mt-8">
+      <button onclick="connectWallet()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
+        Connect Wallet
+      </button>
+      <p id="wallet-address" class="mt-2 text-gray-300"></p>
+    </section>
+  </main>
+
+  <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+    &copy; 2025 Lunexa. All rights reserved.
+  </footer>
+
+  <script>
+    async function fetchBTC() {
+      const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+      const data = await res.json();
+      document.getElementById("btc-price").textContent = "BTC: $" + data.bitcoin.usd.toLocaleString();
+    }
+    fetchBTC();
+    setInterval(fetchBTC, 60000);
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          document.getElementById("wallet-address").textContent = "Wallet: " + accounts[0];
+        } catch (error) {
+          alert("Connection failed");
+        }
+      } else {
+        alert("Install MetaMask to use this feature.");
+      }
+    }
+  </script>
+</body>
+</html>
